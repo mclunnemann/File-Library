@@ -34,9 +34,9 @@ namespace Test_Form
 
         }
 
-        private void loadForm (string path)
-        {   
-            if(search1Dir == false)
+        private void loadForm(string path)
+        {
+            if (search1Dir == false)
             {
                 dirCount = Directory.GetFiles(path, ext, SearchOption.AllDirectories).Length;
                 allfiles = Directory.GetFiles(path, ext, SearchOption.AllDirectories);
@@ -133,7 +133,7 @@ namespace Test_Form
                 grid.Rows[i].Cells[4].Value = filePath;
             }
             //new grid for directory file is in
-            
+
         }
 
         private void Grid_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -156,8 +156,8 @@ namespace Test_Form
                 rowNum_str = grid.Rows[e.RowIndex].HeaderCell.Value.ToString();
                 rowNum = Convert.ToInt32(rowNum_str);
                 rowNum = rowNum - 1;
-                
-                if(result == System.Windows.Forms.DialogResult.Yes)
+
+                if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     File.Copy(filePath + fileName, (string)grid.Rows[e.RowIndex].Cells[4].Value + new_fd_name);
                     File.Delete(filePath + fileName);
@@ -175,10 +175,10 @@ namespace Test_Form
         }
 
         private void Grid_CellDoubleClick1(object sender, DataGridViewCellEventArgs e)
-        {           
+        {
             string rowNum_str = grid.Rows[e.RowIndex].HeaderCell.Value.ToString();
             int rowNum = Convert.ToInt32(rowNum_str);
-            string file = (allfiles[rowNum-1]);
+            string file = (allfiles[rowNum - 1]);
             MessageBox.Show(file);
         }
 
@@ -186,22 +186,24 @@ namespace Test_Form
         {
             string rowNum_str = (e.RowIndex).ToString();
             int rowNum = Convert.ToInt32(rowNum_str);
-
-            if (rowNum > 0 )
+            if (rowNum >= 0)
             {
-                dirCount = Directory.GetFiles(path, ext, SearchOption.AllDirectories).Length;
-                allfiles = Directory.GetFiles(path, ext, SearchOption.AllDirectories);
-                Controls.Remove(grid);
-                path = @"C:\Users\Michael.Lunnemann\Desktop";
-                search1Dir = false;
-                loadForm(path);
-            }
-            else
-            {
-                path = grid2.Rows[e.RowIndex].Cells[1].Value.ToString();
-                Controls.Remove(grid);
-                search1Dir = true;
-                loadForm(path);
+                if (rowNum == 0)
+                {
+                    dirCount = Directory.GetFiles(path, ext, SearchOption.AllDirectories).Length;
+                    allfiles = Directory.GetFiles(path, ext, SearchOption.AllDirectories);
+                    Controls.Remove(grid);
+                    path = @"C:\Users\Michael.Lunnemann\Desktop";
+                    search1Dir = false;
+                    loadForm(path);
+                }
+                else
+                {
+                    path = grid2.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    Controls.Remove(grid);
+                    search1Dir = true;
+                    loadForm(path);
+                }
             }
         }
 
@@ -218,7 +220,7 @@ namespace Test_Form
             Controls.Remove(grid2);
             ext = "";
             ext = "*." + txt_extension.Text.ToLower();
-            if(txt_extension.Text == "")
+            if (txt_extension.Text == "")
             {
                 MessageBox.Show("Enter a valid file extension to search.");
             }
